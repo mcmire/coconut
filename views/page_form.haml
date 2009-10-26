@@ -1,0 +1,18 @@
+%h1= @title
+
+%form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post"}
+  - if @page["exists"]
+    %input(name="_method" value="put" type="hidden")
+  - else
+    %input(name="page_name" value="#{params[:page_name]}" type="hidden")
+  %div(style="overflow: hidden")
+    %div(style="float: left; width: 50%")
+      %textarea(name="content" rows="25" style="width: 100%")= @page["exists"] ? @page["content"] : ""
+      %p
+        %input(type="submit" name="save_exit" value="Save")
+        %input(type="submit" name="save_return" value="Save & continue editing")
+        %a(href="/#{@page["name"]}") Cancel
+    %div(style="float: left; width: 50%")
+      %div(id="preview" style="padding-left: 15px")
+        - if @page["exists"]
+          = render_page @page["content"]

@@ -1,0 +1,79 @@
+html {
+   font-size: 100.01%
+}
+
+body {
+   font-family: Arial;
+   font-size: 0.95em;
+   color: #333;
+}
+
+.error {
+  color: red;
+}
+
+#header, #footer {
+  text-align: right;
+}
+
+a {
+  color: navy;
+  text-decoration: none;
+  border-bottom: 1px dotted navy
+}
+a:hover {
+  /*border-bottom: 1px solid navy;*/
+  border-bottom-style: solid
+}
+a:visited {
+  color: gray;
+  border-bottom-color: gray;
+}
+
+h1, h2 {
+  letter-spacing: -1px
+}
+
+hr {
+  border: none;
+  height: 1px;
+  margin: 1em 0;
+  color: gray;
+  background-color: gray
+}
+
+pre {
+  margin-left: 1em;
+  background-color: #efefef;
+  padding: 4px 9px;
+  font-size: 0.9em;
+  line-height: 1.4
+}
+
+table {
+  border-collapse: collapse
+}
+
+td, th, caption {
+  border: 1px solid silver;
+  padding: 2px 6px
+}
+td, th {
+  font-size: 0.9em
+}
+th {
+  background-color: #e5e5e5
+}
+caption {
+  background-color: #dedede;
+  font-weight: bold
+}
+
+.footnote {
+  vertical-align: super;
+  font-size: 0.8em
+}
+div.footnotes {
+  font-size: 0.9em;
+  color: gray
+}

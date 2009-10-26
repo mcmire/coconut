@@ -1,0 +1,29 @@
+Specs:
+ ✔ The index page just lists all the pages in the system
+ ✔ Going to a non-empty page shows the content of that page
+ ✔ Going to an empty shows a "page empty" message instead and a link to the edit form
+ ✔ Clicking on the "edit page" link on a page goes to the edit form for that page
+ ✔ Edit form has "save (and return)" and "save & continue" buttons
+ - Edit form shows preview side-by-side against textarea
+ ✔ Page content when showing a page and previewing a page passes through Markdown (Maruku)
+ ✘ Saving a page for the first time should create data/pages/[page name], with meta.yml that stores the current version
+ ✔ Saving a page should also add a new file to data/pages/[page name], after the version number
+ - Wiki should be password-protected (perhaps just using HTTP)
+ ✔ Spaces should be converted to underscores in the URL and back
+ ✔ Deleting or renaming a page is straightforward (we're in 2009, after all)
+ ✔ Saving a page with the same content doesn't make a new file
+ ✔ Creating a page with no content doesn't actually make a new page
+
+Future:
+- The index is a soft link to the Special/Index page
+- The index is a soft link to a specific page, if it is defined in the config file
+- The config file is stored in squeal/config.yml (not required)
+- The wiki has a template at data/template.html
+- The wiki has a stylesheet at data/template.css
+- All config data is editable within the app
+- Config variables are hardcoded in the code with the type that they store and/or possible values
+- Code blocks are run through Coderay
+- Global template and stylesheet are editable within the app
+- Going to the history for a page should list all the versions
+- Subdirectories
+- Custom page title

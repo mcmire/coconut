@@ -1,0 +1,14 @@
+= haml :header, :layout => false
+
+%h1= @title
+
+%form(action="/pages/#{@page["name"]}/rename" method="post")
+  %input(type="hidden" name="_method" value="put")
+  - if flash[:error]
+    .error= flash[:error]
+  %p
+    Enter the new name:
+    %input(type="text" name="new_name" value="#{params[:new_name]}")
+  %p
+    %input(type="submit" name="commit" value="Rename")
+    %a(href="/#{@page["name"]}") Cancel

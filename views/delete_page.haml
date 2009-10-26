@@ -1,0 +1,11 @@
+= haml :header, :layout => false
+
+%h1= @title
+
+%form(action="/pages/#{@page["name"]}" method="post")
+  %input(name="_method" value="delete" type="hidden")
+  %p Are you sure you want to delete this page?
+  %p
+    %input(type="submit" name="commit" value="Yes")
+    %input(type="submit" name="cancel" value="No")
+

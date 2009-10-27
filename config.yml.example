@@ -1,6 +1,6 @@
-# Authentication
+# The app uses HTTP authentication so just set these to whatever you want
 username: "yourusername"
 password: "yourpassword"
 
-# Wiki config
+# This will show up in the <title> of the wiki
 wiki_name: "My Rad Wiki"

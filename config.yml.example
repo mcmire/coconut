@@ -1,3 +1,6 @@
 # Authentication
 username: "yourusername"
 password: "yourpassword"
+
+# Wiki config
+wiki_name: "My Rad Wiki"

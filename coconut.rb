@@ -155,7 +155,7 @@ end
 
 config_file = File.expand_path(File.dirname(__FILE__) + '/config.yml')
 if File.exists?(config_file)
-  SquealConfig = YAML.load_file(config_file)
+  CoconutConfig = YAML.load_file(config_file)
 else
   raise "You need to make a config file. Rename config.yml.example to config.yml and modify to suit your needs."
 end
@@ -168,7 +168,7 @@ enable :sessions
 use Rack::Flash, :sweep => true
 
 use Rack::Auth::Basic do |username, password|
-  [username, password] == [SquealConfig["username"], SquealConfig["password"]]
+  [username, password] == [CoconutConfig["username"], CoconutConfig["password"]]
 end
 
 get "/" do

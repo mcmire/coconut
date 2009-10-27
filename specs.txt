@@ -4,11 +4,11 @@ Specs:
  ✔ Going to an empty shows a "page empty" message instead and a link to the edit form
  ✔ Clicking on the "edit page" link on a page goes to the edit form for that page
  ✔ Edit form has "save (and return)" and "save & continue" buttons
- - Edit form shows preview side-by-side against textarea
+ ✔ Edit form shows preview side-by-side against textarea
  ✔ Page content when showing a page and previewing a page passes through Markdown (Maruku)
  ✘ Saving a page for the first time should create data/pages/[page name], with meta.yml that stores the current version
  ✔ Saving a page should also add a new file to data/pages/[page name], after the version number
- - Wiki should be password-protected (perhaps just using HTTP)
+ ✔ Wiki should be password-protected (perhaps just using HTTP)
  ✔ Spaces should be converted to underscores in the URL and back
  ✔ Deleting or renaming a page is straightforward (we're in 2009, after all)
  ✔ Saving a page with the same content doesn't make a new file

@@ -1,11 +1,16 @@
+/*
 html {
    font-size: 100.01%
 }
+*/
 
 body {
-   font-family: Arial;
-   font-size: 0.95em;
-   color: #333;
+  font-family: Arial;
+  /* bring text back up to something reasonable */
+  font-size: 1.45em;
+  /* setting line-height in pixels provides a consistent vertical rhythm */
+  line-height: 20px;
+  color: #333;
 }
 
 .error {
@@ -43,7 +48,7 @@ hr {
 }
 
 pre {
-  margin-left: 1em;
+  /*margin-left: 1em;*/
   background-color: #efefef;
   padding: 4px 9px;
   font-size: 0.9em;
@@ -69,6 +74,10 @@ caption {
   font-weight: bold
 }
 
+form p.buttons {
+  font-size: 0.9em;
+}
+
 .footnote {
   vertical-align: super;
   font-size: 0.8em
@@ -76,4 +85,8 @@ caption {
 div.footnotes {
   font-size: 0.9em;
   color: gray
+}
+div.footnotes p {
+  margin: 0;
+  display: inline;
 }

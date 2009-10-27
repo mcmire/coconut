@@ -105,6 +105,14 @@ helpers do
     end
   end
   
+  #def content_for(sym, &block)
+  #  if block_given?
+  #    (@content_for[sym] ||= "") << capture_haml(&block)
+  #  else
+  #    @content_for[sym]
+  #  end
+  #end
+  
 private
   def _read_page(page_name, page_dir, read_content=false)
     metafile = "#{page_dir}/meta.yml"
@@ -133,8 +141,35 @@ private
   end
 end
 
+# Reload scripts and reset routes on change
+# See <http://groups.google.com/group/sinatrarb/browse_thread/thread/a5cfc2b77a013a86>
+class Sinatra::Reloader < Rack::Reloader
+  def safe_load(file, mtime, stderr = $stderr)
+    if file == Sinatra::Application.app_file
+      ::Sinatra::Application.reset!
+      stderr.puts "#{self.class}: resetting routes"
+    end
+    super
+  end
+end
+
+config_file = File.expand_path(File.dirname(__FILE__) + '/config.yml')
+if File.exists?(config_file)
+  SquealConfig = YAML.load_file(config_file)
+else
+  raise "You need to make a config file. Rename config.yml.example to config.yml and modify to suit your needs."
+end
+
+configure :development do
+  use Sinatra::Reloader
+end
+
 enable :sessions
 use Rack::Flash, :sweep => true
+
+use Rack::Auth::Basic do |username, password|
+  [username, password] == [SquealConfig["username"], SquealConfig["password"]]
+end
 
 get "/" do
   @pages = find_pages
@@ -217,5 +252,14 @@ put "/pages/:page_name/rename" do
     end
   else
     redirect "/#{@page["name"]}"
+  end
+end
+
+post "/pages/:page_name/preview" do
+  @page = find_page(params[:page_name], false)
+  if @page["exists"]
+    render_page params[:content]
+  else
+    # do nothing
   end
 end

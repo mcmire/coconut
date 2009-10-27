@@ -1,0 +1,185 @@
+html {
+  /* get text down to 10px (assuming default of 16px) */
+  font-size: 62.5%
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  margin: 1em
+}
+
+a {
+  text-decoration: underline
+}
+
+hr {
+  border: none;
+  color: gray;
+  background-color: gray;
+  height: 1px;
+  padding: 0;
+  margin: 1em 0;
+}
+
+code, kbd, samp, pre, tt, var {
+  font-size: 100%;
+  font-family: monospace
+}
+
+small, sup, sub {
+  font-size: 0.85em
+}
+
+abbr, acronym {
+  text-transform: uppercase;
+  font-size: 0.85em;
+  /*letter-spacing: .1em*/
+}
+abbr[title], acronym[title], dfn[title]{
+  cursor: help
+  border-bottom: 1px dotted black
+}
+
+sup {
+  vertical-align: super
+}
+sub {
+  vertical-align: sub
+}
+
+img {
+  border: none
+}
+
+p {
+  margin: 1em 0
+}
+  
+/*==============================================================*/
+/* Headers */
+
+h1, h2, h3, h4 {
+  margin: 1em 0
+}
+  
+h1 {
+  font-size: 1.8em
+}
+
+h2 {
+  font-size: 1.6em
+}
+
+h3 {
+  font-size: 1.4em
+}
+
+h4 {
+  font-size: 1.3em
+}
+  
+h5 {
+  font-size: 1.2em
+}
+  
+h6 {
+  font-size: 1em
+}
+
+/*==============================================================*/
+/* Forms */
+
+form {
+  margin: 1em 0
+}
+  
+input, select, button {
+  cursor: pointer
+}
+
+input[type='text'], input[type='password'] {
+  cursor: text
+}
+
+input[type='hidden'] {
+  display: none
+}
+
+/*  
+  input[type="submit"], input[type="button"], button, input[type="file"]
+    font-size: 0.9em
+    font-weight: bold
+*/
+
+input, textarea, select {
+  font-size: 100%
+}
+
+input, select {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+input[type=text], input[type=password], textarea, select {
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}  
+  
+input[type=text], input[type=password] {
+  padding: 2px 4px
+}
+
+optgroup {
+  font-family: inherit
+}
+
+/*==============================================================*/
+/* Tables */
+
+/*
+  table, thead, tbody, tr, td, th
+    font-size: 1em
+*/
+
+table {
+  border-collapse: collapse;
+  /*margin: 1em 0;*/
+}
+  
+td, th {
+  padding: 3px 6px
+}
+    
+th {
+  font-weight: bold
+}
+
+/*==============================================================*/
+/* Other block elements */
+
+blockquote {
+  padding-left: 2em
+}
+
+ul, ol {
+  margin: 1em 2em;
+  padding: 0
+}
+  
+ul {
+  list-style: disc outside
+}
+
+ol {
+  list-style: decimal outside
+}
+  
+dd {
+  margin-left: 2em
+}
+
+pre {
+  white-space: pre;
+  margin: 1em 0;
+}

@@ -9,6 +9,6 @@
   %p
     Enter the new name:
     %input(type="text" name="new_name" value="#{params[:new_name]}")
-  %p
+  %p.buttons
     %input(type="submit" name="commit" value="Rename")
     %a(href="/#{@page["name"]}") Cancel

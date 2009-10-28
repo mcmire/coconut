@@ -1,7 +1,7 @@
 :javascript
   $(function() {
     $("#content").delayedObserver(0.5, function(value, element) {
-      $("#preview").load("/pages/#{@page["name"]}/preview", {content: value})
+      $("#preview").load("/pages/preview", {content: value})
     });
     $("#content").scroll(function(event) {
       $("#preview_area").attr("scrollTop", this.scrollTop);

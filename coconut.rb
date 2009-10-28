@@ -255,11 +255,6 @@ put "/pages/:page_name/rename" do
   end
 end
 
-post "/pages/:page_name/preview" do
-  @page = find_page(params[:page_name], false)
-  if @page["exists"]
-    render_page params[:content]
-  else
-    # do nothing
-  end
+post "/pages/preview" do
+  render_page params[:content]
 end

@@ -3,7 +3,12 @@
 %h1= @title
 
 - if @pages.empty?
-  %p There ain't no pages yet, son. Why don'tcha go help your ma out and create one.
+  %p There ain't no pages yet, son. Why don'tcha go help your ma out and create one:
+  %form(action="/pages/new" method="get")
+    %p.buttons
+      Page name:
+      %input(type="text" name="page_name" value="") &nbsp;
+      %input(type="submit" value="Lemme edit that page")
 %ul
   - for page in @pages
     %li

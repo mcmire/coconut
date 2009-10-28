@@ -74,7 +74,9 @@ caption {
   font-weight: bold
 }
 
-form p.buttons {
+form p.buttons input[type=button],
+form p.buttons input[type=submit],
+form p.buttons button {
   font-size: 0.9em;
 }
 

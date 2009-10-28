@@ -4,7 +4,8 @@ Coconut is a little wiki app written in Sinatra. It aims to be easy to install (
 
 While it's not quite complete, it's perfectly usable. Try it out:
 
-    sudo gem install sinatra
+    sudo gem sources -a http://gemcutter.org # unless you've already done this
+    sudo gem install sinatra rack-flash maruku haml
     git clone git://github.com/mcmire/coconut.git
     cd coconut
     # copy config.yml.example to config.yml and modify to suit your needs

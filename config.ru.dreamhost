@@ -1,0 +1,19 @@
+# If you have a local RubyGems installation on your server,
+# note the Gem.clear_paths line. This is necessary, otherwise the first time
+# the Passenger spawner is loaded, RubyGems won't be able to find
+# rack, sinatra, etc. because it's not looking in your local gem folder.
+#
+# Source: <http://www.edschmalzle.com/2009/06/29/deploying-sinatra-with-passenger-on-dreamhost.html>
+
+ENV["GEM_HOME"] = "/home/<your home folder>/.gems" # shame we have to set this
+ENV['GEM_PATH'] = '$GEM_HOME:/usr/lib/ruby/gems/1.8'
+
+require 'rubygems'
+Gem.clear_paths
+
+require 'sinatra'
+set :environment, :production
+set :run, false
+
+require 'coconut'
+run Sinatra::Application

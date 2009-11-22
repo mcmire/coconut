@@ -2,3 +2,5 @@
 data
 config.yml
 *.tmproj
+tmp/*
+config.ru

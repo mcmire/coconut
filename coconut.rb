@@ -105,13 +105,24 @@ helpers do
     end
   end
   
-  #def content_for(sym, &block)
-  #  if block_given?
-  #    (@content_for[sym] ||= "") << capture_haml(&block)
-  #  else
-  #    @content_for[sym]
-  #  end
-  #end
+  # Simple content_for implementation.
+  #
+  # Set content like so:
+  #
+  #   - content_for :head do
+  #      ...
+  #
+  # Get content like so:
+  #
+  #   = content_for :head
+  #
+  def content_for(sym, &block)
+    if block_given?
+      instance_variable_set("@content_for_#{sym}", capture_haml(&block))
+    else
+      instance_variable_get("@content_for_#{sym}")
+    end
+  end
   
 private
   def _read_page(page_name, page_dir, read_content=false)

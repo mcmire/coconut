@@ -1,60 +1,9 @@
-:javascript
-  var dualScroll = true;
-  var oldDualScroll;
-  var displayHoriz = true;
-  
-  function onScrollTextarea(event) {
-    $("#preview_area").attr("scrollTop", this.scrollTop);
-  }
-  function onScrollPreview(event) {
-    $("#textarea").attr("scrollTop", this.scrollTop);
-  }
-  function toggleDualScroll(event) {
-    dualScroll ? disableDualScroll() : enableDualScroll();
-  }
-  function enableDualScroll() {
-    $("#textarea").scroll(onScrollTextarea);
-    $("#preview_area").scroll(onScrollPreview);
-    $(".toggle_dual_scroll").html("Disable dual scroll");
-    dualScroll = true;
-  }
-  function disableDualScroll() {
-    $("#textarea").unbind("scroll", onScrollTextarea);
-    $("#preview_area").unbind("scroll", onScrollPreview);
-    $(".toggle_dual_scroll").html("Enable dual scroll");
-    dualScroll = false;
-  }
-  
-  function toggleDisplay(event) {
-    displayHoriz ? changeDisplayToVert() : changeDisplayToHoriz();
-  }
-  function changeDisplayToVert() {
-    $("#textarea_area").removeClass("horiz").addClass("vert");
-    $("#preview_area_wrapper").removeClass("horiz").addClass("vert");
-    $(".toggle_display").html("Change display to horizontal");
-    oldDualScroll = dualScroll;
-    disableDualScroll();
-    displayHoriz = false;
-  }
-  function changeDisplayToHoriz() {
-    $("#textarea_area").removeClass("vert").addClass("horiz");
-    $("#preview_area_wrapper").removeClass("vert").addClass("horiz");
-    $(".toggle_display").html("Change display to vertical");
-    if (oldDualScroll) enableDualScroll();
-    displayHoriz = true;
-  }
-
-  $(function() {
-    $("#textarea").delayedObserver(0.5, function(value, element) {
-      $("#preview").load("/pages/preview", {content: value})
-    });
-    
-    enableDualScroll();
-    $(".toggle_dual_scroll").click(toggleDualScroll);
-    $(".toggle_display").click(toggleDisplay);
-  });
+- content_for :head do
+  %script(type="text/javascript" src="/javascripts/page_form.js")
 
 %h1= @title
+
+#debug(style="display: none") &nbsp;
 
 %form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post", :id => "page_form"}
   - if @page["exists"]

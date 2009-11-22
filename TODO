@@ -1,0 +1,6 @@
+* Controls links at the bottom of the page form: convert to a transparent fixed footer (also include save buttons)
+  * maybe even include the h1 tag too. like put all the stuff to the right of it then have it stick to the top of the viewport when you scroll down?
+
+* Add a "page history" page - diffs of pages and so on
+* Different markup filters?
+* Better table format?

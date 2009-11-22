@@ -40,11 +40,8 @@ h1, h2 {
 }
 
 hr {
-  border: none;
-  height: 1px;
-  margin: 1em 0;
-  color: gray;
-  background-color: gray
+  color: silver;
+  background-color: silver
 }
 
 pre {
@@ -80,31 +77,46 @@ form p.buttons button {
   font-size: 0.9em;
 }
 
-.column {
-  float: left;
-  width: 50%;
-}
-
-.clear {
+.block-clear {
   overflow: hidden;
+}
+.clear {
   clear: both;
 }
 
 /* page form */
 
+#page_form #textarea_area.horiz,
+#page_form #preview_area_wrapper.horiz {
+  /*margin: 1em 0;*/
+  float: left;
+  width: 50%;
+}
 #page_form #textarea {
-  width: 95%;
   height: 500px
 }
+#page_form #textarea_area.vert #textarea {
+  width: 100%;
+}
+#page_form #textarea_area.horiz #textarea {
+  width: 95%;
+}
 #page_form #preview_area {
+  border: 1px solid silver;
+}
+#page_form #preview_area_wrapper.horiz #preview_area {
   height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
-  border: 1px solid silver
+}
+#page_form #preview_area_wrapper.horiz h3 {
+  display: none;
 }
 #page_form #preview {
-  margin-left: 10px;
-  margin-right: 10px
+  margin: 10px;
+}
+#page_form .controls {
+  font-size: 0.9em;
 }
 
 /* page view */

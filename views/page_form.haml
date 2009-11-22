@@ -1,5 +1,7 @@
 :javascript
   var dualScroll = true;
+  var oldDualScroll;
+  var displayHoriz = true;
   
   function onScrollTextarea(event) {
     $("#preview_area").attr("scrollTop", this.scrollTop);
@@ -13,15 +15,34 @@
   function enableDualScroll() {
     $("#textarea").scroll(onScrollTextarea);
     $("#preview_area").scroll(onScrollPreview);
-    $("#toggle_dual_scroll a").html("Disable dual scroll");
+    $(".toggle_dual_scroll").html("Disable dual scroll");
     dualScroll = true;
   }
   function disableDualScroll() {
     $("#textarea").unbind("scroll", onScrollTextarea);
     $("#preview_area").unbind("scroll", onScrollPreview);
-    $("#toggle_dual_scroll a").html("Enable dual scroll");
+    $(".toggle_dual_scroll").html("Enable dual scroll");
     dualScroll = false;
-  }  
+  }
+  
+  function toggleDisplay(event) {
+    displayHoriz ? changeDisplayToVert() : changeDisplayToHoriz();
+  }
+  function changeDisplayToVert() {
+    $("#textarea_area").removeClass("horiz").addClass("vert");
+    $("#preview_area_wrapper").removeClass("horiz").addClass("vert");
+    $(".toggle_display").html("Change display to horizontal");
+    oldDualScroll = dualScroll;
+    disableDualScroll();
+    displayHoriz = false;
+  }
+  function changeDisplayToHoriz() {
+    $("#textarea_area").removeClass("vert").addClass("horiz");
+    $("#preview_area_wrapper").removeClass("vert").addClass("horiz");
+    $(".toggle_display").html("Change display to vertical");
+    if (oldDualScroll) enableDualScroll();
+    displayHoriz = true;
+  }
 
   $(function() {
     $("#textarea").delayedObserver(0.5, function(value, element) {
@@ -29,7 +50,8 @@
     });
     
     enableDualScroll();
-    $("#toggle_dual_scroll a").click(toggleDualScroll);
+    $(".toggle_dual_scroll").click(toggleDualScroll);
+    $(".toggle_display").click(toggleDisplay);
   });
 
 %h1= @title
@@ -39,17 +61,30 @@
     %input(name="_method" value="put" type="hidden")
   - else
     %input(name="page_name" value="#{params[:page_name]}" type="hidden")
-  %div
-    %div#textarea_area.column
+    
+  %p.controls
+    %a.toggle_dual_scroll(href="#") Disable dual scroll
+    &nbsp;&bull;&nbsp;
+    %a.toggle_display(href="#") Change display to vertical
+  
+  %div.block-clear
+    %div#textarea_area.horiz
       %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
-    %div#preview_area_wrapper.column
+    %div#preview_area_wrapper.horiz
+      %h3 Preview:
       %div#preview_area
         %div#preview
           - if @page["exists"]
             ~ render_page @page["content"]
-  %p.buttons.clear
-    %p#toggle_dual_scroll
-      %a(href="#") Disable dual scroll
+
+  %p.controls
+    %a.toggle_dual_scroll(href="#") Disable dual scroll
+    &nbsp;&bull;&nbsp;
+    %a.toggle_display(href="#") Change display to vertical
+    
+  %hr
+    
+  %p
     %input(type="submit" name="save_exit" value="Save")
     %input(type="submit" name="save_return" value="Save & continue editing")
     %a(href="/#{@page["name"]}") Cancel

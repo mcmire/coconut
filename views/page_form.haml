@@ -1,32 +1,55 @@
 :javascript
+  var dualScroll = true;
+  
+  function onScrollTextarea(event) {
+    $("#preview_area").attr("scrollTop", this.scrollTop);
+  }
+  function onScrollPreview(event) {
+    $("#textarea").attr("scrollTop", this.scrollTop);
+  }
+  function toggleDualScroll(event) {
+    dualScroll ? disableDualScroll() : enableDualScroll();
+  }
+  function enableDualScroll() {
+    $("#textarea").scroll(onScrollTextarea);
+    $("#preview_area").scroll(onScrollPreview);
+    $("#toggle_dual_scroll a").html("Disable dual scroll");
+    dualScroll = true;
+  }
+  function disableDualScroll() {
+    $("#textarea").unbind("scroll", onScrollTextarea);
+    $("#preview_area").unbind("scroll", onScrollPreview);
+    $("#toggle_dual_scroll a").html("Enable dual scroll");
+    dualScroll = false;
+  }  
+
   $(function() {
-    $("#content").delayedObserver(0.5, function(value, element) {
+    $("#textarea").delayedObserver(0.5, function(value, element) {
       $("#preview").load("/pages/preview", {content: value})
     });
-    $("#content").scroll(function(event) {
-      $("#preview_area").attr("scrollTop", this.scrollTop);
-    });
-    $("#preview_area").scroll(function(event) {
-      $("#content").attr("scrollTop", this.scrollTop);
-    })
-  })
+    
+    enableDualScroll();
+    $("#toggle_dual_scroll a").click(toggleDualScroll);
+  });
 
 %h1= @title
 
-%form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post"}
+%form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post", :id => "page_form"}
   - if @page["exists"]
     %input(name="_method" value="put" type="hidden")
   - else
     %input(name="page_name" value="#{params[:page_name]}" type="hidden")
-  %div(style="overflow: hidden")
-    %div#content_area(style="float: left; width: 50%")
-      %textarea#content(name="content" rows="25" cols="20" style="width: 95%; height: 500px")= @page["exists"] ? @page["content"] : ""
-      %p.buttons
-        %input(type="submit" name="save_exit" value="Save")
-        %input(type="submit" name="save_return" value="Save & continue editing")
-        %a(href="/#{@page["name"]}") Cancel
-    %div(style="float: left; width: 50%")
-      %div#preview_area(style="height: 500px; overflow-x: hidden; overflow-y: auto; border: 1px solid silver")
-        %div#preview(style="margin-left: 10px; margin-right: 10px")
+  %div
+    %div#textarea_area.column
+      %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
+    %div#preview_area_wrapper.column
+      %div#preview_area
+        %div#preview
           - if @page["exists"]
             ~ render_page @page["content"]
+  %p.buttons.clear
+    %p#toggle_dual_scroll
+      %a(href="#") Disable dual scroll
+    %input(type="submit" name="save_exit" value="Save")
+    %input(type="submit" name="save_return" value="Save & continue editing")
+    %a(href="/#{@page["name"]}") Cancel

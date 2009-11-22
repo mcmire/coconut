@@ -80,6 +80,35 @@ form p.buttons button {
   font-size: 0.9em;
 }
 
+.column {
+  float: left;
+  width: 50%;
+}
+
+.clear {
+  overflow: hidden;
+  clear: both;
+}
+
+/* page form */
+
+#page_form #textarea {
+  width: 95%;
+  height: 500px
+}
+#page_form #preview_area {
+  height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid silver
+}
+#page_form #preview {
+  margin-left: 10px;
+  margin-right: 10px
+}
+
+/* page view */
+
 .footnote {
   vertical-align: super;
   font-size: 0.8em

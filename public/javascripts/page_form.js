@@ -60,8 +60,8 @@ $(function() {
   if (!Cookie.exists("dualScroll")) Cookie.set("dualScroll", true, 7);
   if (!Cookie.exists("displayHoriz")) Cookie.set("displayHoriz", true, 7);
   
-  toggleDualScroll();
-  toggleDisplay();
+  Cookie.get("dualScroll") ? enableDualScroll() : disableDualScroll();
+  Cookie.get("displayHoriz") ? changeDisplayToHoriz() : changeDisplayToVert();
   $(".toggle_dual_scroll").click(toggleDualScroll);
   $(".toggle_display").click(toggleDisplay);
   debugCookies();

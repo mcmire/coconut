@@ -11,6 +11,8 @@ body {
   /* setting line-height in pixels provides a consistent vertical rhythm */
   line-height: 20px;
   color: #333;
+  margin-left: 3em;
+  margin-right: 3em;
 }
 
 .error {
@@ -53,7 +55,8 @@ pre {
 }
 
 table {
-  border-collapse: collapse
+  border-collapse: collapse;
+  width: 100%;
 }
 
 td, th, caption {
@@ -102,14 +105,15 @@ form p.buttons button {
   width: 95%;
 }
 #page_form #preview_area {
-  border: 1px solid silver;
+  border: 1px solid #F2DDDF;
+  background-image: url(/images/draft.png);
 }
 #page_form #preview_area_wrapper.horiz #preview_area {
   height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
 }
-#page_form #preview_area_wrapper.horiz h3 {
+#page_form #preview_area_wrapper.horiz .ifvert {
   display: none;
 }
 #page_form #preview {

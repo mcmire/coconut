@@ -1,7 +1,11 @@
 - content_for :head do
   %script(type="text/javascript" src="/javascripts/page_form.js")
 
-%h1= @title
+%h1
+  = @title
+  %span(style="font-size: 0.6em; font-weight: normal; letter-spacing: 0")
+    &nbsp;
+    %a{:href => "/#{@page["name"]}"} Return to page &raquo;
 
 #debug(style="display: none") &nbsp;
 
@@ -20,7 +24,13 @@
     %div#textarea_area.horiz
       %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
     %div#preview_area_wrapper.horiz
-      %h3 Preview:
+      .ifvert
+        %p
+          %input(type="submit" name="save_exit" value="Save")
+          %input(type="submit" name="save_return" value="Save & continue editing")
+          %a(href="/#{@page["name"]}") Cancel
+        %hr
+        %h3 Preview:
       %div#preview_area
         %div#preview
           - if @page["exists"]

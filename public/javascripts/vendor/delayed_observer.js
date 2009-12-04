@@ -1,10 +1,12 @@
 /*
  jQuery delayed observer
  (c) 2007 - Maxime Haineault (max@centdessin.com)
+ http://haineault.com/blog/18/
  
  Special thanks to Stephen Goguen & Tane Piper.
  
- Slight modifications by Elliot Winkler
+ Slight modifications by Elliot Winkler:
+ * Don't fire the callback when a non-printable character is pressed
 */
 
 (function() {
@@ -13,7 +15,8 @@
  
   function delayedObserverCallback(stackPos) {
     observed = delayedObserverStack[stackPos];
-    if (observed.timer) return;
+    //if (observed.timer) return;
+    if (observed.timer) clearTimeout(observed.timer);
    
     observed.timer = setTimeout(function(){
       observed.timer = null;

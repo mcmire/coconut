@@ -95,8 +95,9 @@ form p.buttons button {
   float: left;
   width: 50%;
 }
-#page_form #textarea {
-  height: 500px
+#page_form #textarea,
+#page_form #preview_area_wrapper.horiz #preview_area {
+  height: 400px
 }
 #page_form #textarea_area.vert #textarea {
   width: 100%;
@@ -106,10 +107,10 @@ form p.buttons button {
 }
 #page_form #preview_area {
   border: 1px solid #F2DDDF;
-  background-image: url(/images/draft.png);
+  background: url(/images/draft.png);
+  position: relative;
 }
 #page_form #preview_area_wrapper.horiz #preview_area {
-  height: 500px;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -121,6 +122,18 @@ form p.buttons button {
 }
 #page_form .controls {
   font-size: 0.9em;
+}
+#page_form #preview_area #preview_loading {
+  position: fixed;
+  background-color: #FCF159;
+  font-weight: bold;
+  font-size: 0.8em;
+  padding: 3px 7px;
+  width: 100px;
+  top: 0;
+  right: 5%;
+  text-align: center;
+  -moz-border-radius: 0 0 6px 6px;
 }
 
 /* page view */

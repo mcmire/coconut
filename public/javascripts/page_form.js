@@ -53,8 +53,30 @@ function debugCookies() {
 }
 
 $(function() {
-  $("#textarea").delayedObserver(0.5, function(value, element) {
-    $("#preview").load("/pages/preview", {content: value})
+  $("#textarea").delayedObserver(2, function(value, element) {
+    var p = $("#preview");
+    var timer1, timer2;
+    $.ajax({
+      url: "/pages/preview",
+      type: "POST",
+      dataType: "html", 
+      data: {content: value},
+      beforeSend: function(xhr) {
+        timer1 = setTimeout(function() {
+          $("#preview_loading span").html("Loading...");
+          $("#preview_loading").fadeIn("slow");
+          timer2 = setTimeout(function() {
+            $("#preview_loading span").html("Still loading...");
+          }, 15000);
+        }, 3000);
+      },
+      complete: function(xhr, status) {
+        if (timer1) clearTimeout(timer1);
+        if (timer2) clearTimeout(timer2);
+        $("#preview_loading").hide();
+        p.html(xhr.responseText);
+      }
+    })
   });
   
   if (!Cookie.exists("dualScroll")) Cookie.set("dualScroll", true, 7);

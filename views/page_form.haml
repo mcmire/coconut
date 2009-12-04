@@ -32,6 +32,9 @@
         %hr
         %h3 Preview:
       %div#preview_area
+        #preview_loading(style="display: none")
+          %span Loading...
+          %img(src="/images/ajax-loader.gif" width="16" height="11" style="margin-left: 5px; vertical-align: middle")
         %div#preview
           - if @page["exists"]
             ~ render_page @page["content"]

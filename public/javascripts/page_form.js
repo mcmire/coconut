@@ -53,6 +53,15 @@ function debugCookies() {
 }
 
 $(function() {
+  /*
+  $("#textarea").keyup(function(event) {
+    var out = "";
+    $.each("metaKey,altKey,ctrlKey,shiftKey,keyCode,charCode".split(","), function() {
+      out += this + ": " + event[this] + "<br />";
+    });
+    $("#debug").show().html(out);
+  })
+  */
   $("#textarea").delayedObserver(2, function(value, element) {
     var p = $("#preview");
     var timer1, timer2;

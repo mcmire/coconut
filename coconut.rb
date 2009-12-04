@@ -278,5 +278,6 @@ put "/pages/:page_name/rename" do
 end
 
 post "/pages/preview" do
+  #sleep 4
   render_page params[:content]
 end

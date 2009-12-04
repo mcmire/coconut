@@ -34,7 +34,9 @@
     return (
       (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) ||
       (
-        code == 8 || code == 9 || code <= 18 || (code >= 91 && code <= 93) || (code >= 112 && code <= 145) ||
+        (code >= 16 && code <= 46) ||
+        (code >= 91 && code <= 93) ||
+        (code >= 112 && code <= 145) ||
         // command key on a mac
         (/Mac OS/.test(navigator.userAgent) && code == 224)
       )

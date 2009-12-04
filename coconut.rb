@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+PROJ_DIR = File.dirname(__FILE__)
+
+$:.unshift(PROJ_DIR)
+
 require "fileutils"
 require "rubygems"
 
@@ -15,8 +19,11 @@ require "haml"
 gem "maruku"
 require "maruku"
 
-PAGES_DIR = File.expand_path(File.dirname(__FILE__) + "/data/pages")
-TRASH_DIR = File.expand_path(File.dirname(__FILE__) + "/data/trash")
+require "trailing_slash"
+use Rack::TrailingSlash
+
+PAGES_DIR = File.expand_path("#{PROJ_DIR}/data/pages")
+TRASH_DIR = File.expand_path("#{PROJ_DIR}/data/trash")
 
 helpers do
   def find_pages(read_content=false)
@@ -203,6 +210,10 @@ end
 
 get "/:page_name" do |page_name|
   do_page(page_name)
+end
+
+get "/pages/:page_name" do |page_name|
+  redirect "/#{page_name}"
 end
 
 get "/pages/:page_name/edit" do

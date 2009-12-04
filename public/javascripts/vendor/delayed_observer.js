@@ -32,7 +32,7 @@
   function isNonPrintableKey(event) {
     var code = event.keyCode;
     return (
-      (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) ||
+      //(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) ||
       (
         (code >= 16 && code <= 46) ||
         (code >= 91 && code <= 93) ||

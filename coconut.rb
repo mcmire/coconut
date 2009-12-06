@@ -14,10 +14,8 @@ require 'rack-flash'
 
 require "haml"
 
-#gem "rpeg-markdown"
-#require "markdown"
-gem "maruku"
-require "maruku"
+#require "creole"
+require "wiki_creole"
 
 require "trailing_slash"
 use Rack::TrailingSlash
@@ -26,6 +24,13 @@ PAGES_DIR = File.expand_path("#{PROJ_DIR}/data/pages")
 TRASH_DIR = File.expand_path("#{PROJ_DIR}/data/trash")
 
 helpers do
+  def markup(content)
+    #Creole.creolize(content)
+    content = content.gsub(/\r\n/, "\n")  # so WikiCreole will parse hr's correctly
+    content = WikiCreole.creole_parse(content)
+    content = content.gsub(/<pre>\s*/, "<pre>")  # fix this, blah blah
+  end
+  
   def find_pages(read_content=false)
     pages = []
     Dir["#{PAGES_DIR}/*"].each do |page_dir|
@@ -51,33 +56,12 @@ helpers do
   def do_page(page_name)
     @page = find_page(page_name)
     @title = @page["title"]
-    #render_page_in_layout(render_page(page["content"]))
     content = render_page(@page["content"])
     haml :page, :layout => :wiki, :locals => {:content => content}
   end
   
   def render_page(content)
-    Maruku.new(content).to_html
-  end
-  
-  def render_page_in_layout(content, options={})
-    engine = :haml
-    
-    # merge app-level options
-    options = self.class.send(engine).merge(options) if self.class.respond_to?(engine)
-
-    # extract generic options
-    layout = :wiki
-    views = options.delete(:views) || self.class.views || "./views"
-    locals = options.delete(:locals) || locals || {}
-
-    # render layout
-    data, options[:filename], options[:line] = lookup_layout(engine, layout, views)
-    if data
-      output = __send__("render_#{engine}", layout, data, options, locals) { content }
-    end
-
-    output
+    markup(content)
   end
   
   def normalize_page_name(page_name)
@@ -91,6 +75,7 @@ helpers do
   
   def save_page(page_name, content)
     content = content.strip
+    content = content.gsub(/\r\n/, "\n")  # so WikiCreole will parse hr's correctly
     page = find_page(page_name)
     page_dir = "#{PAGES_DIR}/#{page["name"]}"
     FileUtils.mkdir_p(page_dir)

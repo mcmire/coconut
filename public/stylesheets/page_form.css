@@ -1,0 +1,46 @@
+#page_form #textarea_area.horiz,
+#page_form #preview_area_wrapper.horiz {
+  /*margin: 1em 0;*/
+  float: left;
+  width: 50%;
+}
+#page_form #textarea,
+#page_form #preview_area_wrapper.horiz #preview_area {
+  height: 400px
+}
+#page_form #textarea_area.vert #textarea {
+  width: 100%;
+}
+#page_form #textarea_area.horiz #textarea {
+  width: 95%;
+}
+#page_form #preview_area {
+  border: 1px solid #F2DDDF;
+  background: url(/images/draft.png);
+  position: relative;
+}
+#page_form #preview_area_wrapper.horiz #preview_area {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#page_form #preview_area_wrapper.horiz .ifvert {
+  display: none;
+}
+#page_form #preview {
+  margin: 10px;
+}
+#page_form .controls {
+  font-size: 0.9em;
+}
+#page_form #preview_area #preview_loading {
+  position: fixed;
+  background-color: #FCF159;
+  font-weight: bold;
+  font-size: 0.8em;
+  padding: 3px 7px;
+  width: 100px;
+  top: 0;
+  right: 5%;
+  text-align: center;
+  -moz-border-radius: 0 0 6px 6px;
+}

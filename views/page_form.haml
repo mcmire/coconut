@@ -1,5 +1,6 @@
 - content_for :head do
   %script(type="text/javascript" src="/javascripts/page_form.js")
+  %link(rel="stylesheet" href="/stylesheets/page_form.css")
 
 %h1
   = @title
@@ -37,7 +38,7 @@
         #preview_loading(style="display: none")
           %span Loading...
           %img(src="/images/ajax-loader.gif" width="16" height="11" style="margin-left: 5px; vertical-align: middle")
-        %div#preview
+        %div#preview.page_content
           - if @page["exists"]
             ~ render_page @page["content"]
 

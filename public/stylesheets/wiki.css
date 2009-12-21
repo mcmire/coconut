@@ -11,30 +11,25 @@ body {
   /* setting line-height in pixels provides a consistent vertical rhythm */
   line-height: 20px;
   color: #333;
-  margin-left: 3em;
-  margin-right: 3em;
+  margin: 0;
 }
 
-.error {
-  color: red;
-}
-
-#header, #footer {
-  text-align: right;
-}
-
-a {
-  color: navy;
+a:not(.button) {
+  color: #7C92C8;
   text-decoration: none;
-  border-bottom: 1px dotted navy
+  border-bottom: 1px solid #7C92C8
 }
-a:hover {
-  /*border-bottom: 1px solid navy;*/
-  border-bottom-style: solid
+a:not(.button):hover {
+  color: #2D558D;
+  border-bottom-color: #2D558D;
 }
-a:visited {
-  color: gray;
-  border-bottom-color: gray;
+*:not(#header, #footer) a:visited {
+  color: #999;
+  border-bottom-color: #999;
+}
+*:not(#header, #footer) a:visited:hover {
+  color: #666;
+  border-bottom-color: #666;
 }
 
 h1, h2 {
@@ -74,18 +69,91 @@ caption {
   font-weight: bold
 }
 
-form p.buttons input[type=button],
-form p.buttons input[type=submit],
-form p.buttons button {
-  font-size: 0.9em;
+
+/* layout */
+
+ul.menu {
+  float: right;
+  margin: 1em 0;
+}
+ul.left.menu {
+  float: left;
+}
+ul.menu li {
+  padding-right: 0.5em;
+}
+ul.bull-sep.menu li:after {
+  content: "•";
+  padding-left: 0.2em;
+}
+ul.bull-sep.menu li.last:after {
+  content: "";
 }
 
-.block-clear {
-  overflow: hidden;
+#header, #footer {
+  /*background-color: #FEFFB8;*/
+  background-color: #F5F8FF;
+  border-style: solid;
+  /*border-color: #D4D5A7;*/
+  border-color: #BDD1E0;
 }
-.clear {
-  clear: both;
+
+/*
+#footer-inner {
+  padding: 7px 20px;
 }
+*/
+
+#header h1, #header ul.menu {
+  margin: 10px 0;
+}
+
+.nav {
+  text-align: right;
+  float: right;
+  /*
+  position: relative;
+  top: 3px;
+  */
+}
+
+#header {
+  /*border-radius: 0 0 5px 5px;*/
+  /*border-width: 0 1px 1px 1px;*/
+  border-bottom-width: 1px;
+  margin-bottom: 2em;
+  padding: 7px;
+}
+
+#footer {
+  /*border-radius: 5px 5px 0 0;*/
+  /*border-width: 1px 1px 0 1px;*/
+  border-top-width: 1px;
+  /*margin-top: 2em;*/
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.9em;
+  opacity: 0.9;
+}
+
+#header, #main, #footer-inner {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+#main {
+  /* leave space for the footer */
+  padding-bottom: 70px;
+}
+
+/*
+#footer a.button {
+  border: none;
+  color: #666;
+}
+*/
 
 /* page */
 
@@ -99,12 +167,52 @@ form p.buttons button {
   color: gray
 }
 
-.page_contentdiv.footnotes p {
+.page_content div.footnotes p {
   margin: 0;
   display: inline;
 }
 
-.page_content ul ul, .page_content ol ol {
+.page_content ul ul,
+.page_content ol ol,
+.page_content ul ol,
+.page_content ol ul {
   margin-top: 0em;
   margin-bottom: 0.5em;
+}
+
+/* other stuff */
+
+.error {
+  color: red;
+}
+
+.block-clear {
+  overflow: hidden;
+}
+.clear {
+  clear: both;
+}
+
+ul.menu {
+  list-style-type: none;
+}
+ul.menu li {
+  display: inline;
+  float: left;
+}
+
+/* simply buttons overrides */
+
+button.submit span span,
+a.submit span span,
+a.submit:link span span,
+a.submit:visited span span {
+  padding-left: 30px;
+}
+
+button.cancel span span,
+a.cancel span span,
+a.cancel:link span span,
+a.cancel:visited span span {
+  padding-left: 30px;
 }

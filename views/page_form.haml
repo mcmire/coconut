@@ -2,11 +2,26 @@
   %script(type="text/javascript" src="/javascripts/page_form.js")
   %link(rel="stylesheet" href="/stylesheets/page_form.css")
 
-%h1
-  = @title
-  %span(style="font-size: 0.6em; font-weight: normal; letter-spacing: 0")
-    &nbsp;
-    %a{:href => "/#{@page["name"]}"} Return to page &raquo;
+- content_for :before_body do
+  #footer
+    #footer-inner.block-clear
+      %ul.right.menu.block-clear
+        %li
+          = button_tag "save_exit", "Save", :class => "submit"
+          /%input(type="submit" name="save_exit" value="Save")
+        %li
+          /%input(type="submit" name="save_return" value="Save & continue editing")
+          = button_tag "save_return", "Save & continue editing", :class => "submit"
+        %li
+          /%a(href="/#{@page["name"]}") Cancel
+          = button_link_to "Cancel", "/#{@page["name"]}", :class => "cancel"
+      %ul.left.menu.block-clear
+        %li
+          /%a.toggle_dual_scroll(href="#") Disable dual scroll
+          = button_link_to "Disable dual scroll", '#', :class => "toggle_dual_scroll"
+        %li
+          /%a.toggle_display(href="#") Change display to vertical
+          = button_link_to "Change display to vertical", '#', :class => "toggle_display"
 
 #debug(style="display: none") &nbsp;
 
@@ -17,21 +32,12 @@
     %input(name="page_name" value="#{params[:page_name]}" type="hidden")
     
   /#debug Debug goes here
-    
-  %p.controls
-    %a.toggle_dual_scroll(href="#") Disable dual scroll
-    &nbsp;&bull;&nbsp;
-    %a.toggle_display(href="#") Change display to vertical
   
   %div.block-clear
     %div#textarea_area.horiz
       %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
     %div#preview_area_wrapper.horiz
       .ifvert
-        %p
-          %input(type="submit" name="save_exit" value="Save")
-          %input(type="submit" name="save_return" value="Save & continue editing")
-          %a(href="/#{@page["name"]}") Cancel
         %hr
         %h3 Preview:
       %div#preview_area
@@ -41,15 +47,3 @@
         %div#preview.page_content
           - if @page["exists"]
             ~ render_page @page["content"]
-
-  %p.controls
-    %a.toggle_dual_scroll(href="#") Disable dual scroll
-    &nbsp;&bull;&nbsp;
-    %a.toggle_display(href="#") Change display to vertical
-    
-  %hr
-    
-  %p
-    %input(type="submit" name="save_exit" value="Save")
-    %input(type="submit" name="save_return" value="Save & continue editing")
-    %a(href="/#{@page["name"]}") Cancel

@@ -13,14 +13,14 @@ function toggleDualScroll(event) {
 function enableDualScroll() {
   $("#textarea").scroll(onScrollTextarea);
   $("#preview_area").scroll(onScrollPreview);
-  $(".toggle_dual_scroll").html("Disable dual scroll");
+  $(".toggle_dual_scroll span span").html("Disable dual scroll");
   Cookie.set("dualScroll", true, 7);
   debugCookies();
 }
 function disableDualScroll() {
   $("#textarea").unbind("scroll", onScrollTextarea);
   $("#preview_area").unbind("scroll", onScrollPreview);
-  $(".toggle_dual_scroll").html("Enable dual scroll");
+  $(".toggle_dual_scroll span span").html("Enable dual scroll");
   Cookie.set("dualScroll", false, 7);
   debugCookies();
 }
@@ -32,7 +32,7 @@ function toggleDisplay(event) {
 function changeDisplayToVert() {
   $("#textarea_area").removeClass("horiz").addClass("vert");
   $("#preview_area_wrapper").removeClass("horiz").addClass("vert");
-  $(".toggle_display").html("Change display to horizontal");
+  $(".toggle_display span span").html("Change display to horizontal");
   oldDualScroll = Cookie.get("dualScroll");
   disableDualScroll();
   Cookie.set("displayHoriz", false, 7);
@@ -41,7 +41,7 @@ function changeDisplayToVert() {
 function changeDisplayToHoriz() {
   $("#textarea_area").removeClass("vert").addClass("horiz");
   $("#preview_area_wrapper").removeClass("vert").addClass("horiz");
-  $(".toggle_display").html("Change display to vertical");
+  $(".toggle_display span span").html("Change display to vertical");
   if (oldDualScroll) enableDualScroll();
   Cookie.set("displayHoriz", true, 7);
   debugCookies();

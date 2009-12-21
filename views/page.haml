@@ -1,10 +1,19 @@
 - content_for :head do
   %link(rel="stylesheet" href="/stylesheets/page.css")
 
-= haml :header, :layout => false
-
-%h1= @title
+- content_for :before_body do
+  #footer
+    #footer-inner.block-clear
+      %ul.bull-sep.menu.block-clear
+        - if @page["exists"]
+          %li
+            %a(href="/pages/#{@page["name"]}/edit") Edit this page
+          %li
+            %a(href="/pages/#{@page["name"]}/rename") Rename this page
+          %li.last
+            %a(href="/pages/#{@page["name"]}/delete") Delete this page
+        - else
+          %li.last
+            %a(href="/pages/new?page_name=#{@page["name"]}") Create this page
 
 .page_content~ content
-
-= haml :footer, :layout => false

@@ -1,7 +1,3 @@
-= haml :header, :layout => false
-
-%h1= @title
-
 - if @pages.empty?
   %p There ain't no pages yet, son. Why don'tcha go help your ma out and create one:
   %form(action="/pages/new" method="get")

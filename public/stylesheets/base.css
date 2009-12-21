@@ -183,3 +183,13 @@ pre {
   white-space: pre;
   margin: 1em 0;
 }
+
+/*==============================================================*/
+/* Standard extensions */
+
+.inline-block {
+  display: -moz-inline-box;
+  display: inline-block;
+  -moz-box-orient: vertical;
+  vertical-align: bottom;
+}

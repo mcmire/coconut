@@ -2,11 +2,17 @@
 !!!
 %html
   %head
-    %title== #{CoconutConfig["wiki_name"]}: #{@title}
+    %title= page_title
+    %link(rel="stylesheet" href="/stylesheets/vendor/SimplyButtons.css")
     %link(rel="stylesheet" href="/stylesheets/master.css")
     %script(language="javascript" type="text/javascript" src="/javascripts/vendor/jquery.min.js")
     %script(language="javascript" type="text/javascript" src="/javascripts/vendor/delayed_observer.js")
     %script(language="javascript" type="text/javascript" src="/javascripts/vendor/cookie.js")
+    /%script(language="javascript" type="text/javascript" src="/javascripts/vendor/SimplyButtons.js")
+    /%script(language="javascript" type="text/javascript" src="/javascripts/wiki.js")
     = content_for :head
   %body
-    = yield
+    = haml :header, :layout => false
+    = content_for :before_body
+    #main
+      = yield

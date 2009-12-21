@@ -1,8 +1,8 @@
 #header.block-clear
   %h1.inline-block
-    - if @title == Coconut::Config["wiki_name"]
+    - if @title == Coconut.config["wiki_name"]
       = @title
     - else
-      = link_to Coconut::Config["wiki_name"], "/"
+      = link_to Coconut.config["wiki_name"], "/"
       %span(style="font-weight: normal") &raquo;
       = @title

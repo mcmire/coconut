@@ -52,47 +52,39 @@ function debugCookies() {
   $("#debug").show();html("<b>Dual scroll?</b>: "+Cookie.get("dualScroll")+"<br/>"+"<b>Display horizontally?:</b> "+Cookie.get("displayHoriz")+"<br/>"+"<b>Cookies:</b> "+document.cookie);
 }
 
+function updatePreviewArea(filter, content) {
+  var timer1, timer2;
+  $.ajax({
+    url: "/pages/preview",
+    type: "POST",
+    dataType: "html", 
+    data: {markup_filter: filter, content: content},
+    beforeSend: function(xhr) {
+      timer1 = setTimeout(function() {
+        $("#preview_loading span").html("Loading...");
+        $("#preview_loading").fadeIn("slow");
+        timer2 = setTimeout(function() {
+          $("#preview_loading span").html("Still loading...");
+        }, 15000);
+      }, 3000);
+    },
+    complete: function(xhr, status) {
+      if (timer1) clearTimeout(timer1);
+      if (timer2) clearTimeout(timer2);
+      $("#preview_loading").hide();
+      $("#preview").html(xhr.responseText);
+    }
+  })
+}
+
 $(function() {
-  if (false)
-  {
-    // DEBUG
-    $("#textarea").keyup(function(event) {
-      var out = "";
-      $.each("metaKey,altKey,ctrlKey,shiftKey,keyCode,charCode".split(","), function() {
-        out += this + ": " + event[this] + "<br />";
-      });
-      //out += "navigator.userAgent: " + navigator.userAgent + "<br/>"
-      $("#debug").show().html(out);
-    })
-  }
-  else
-  {
-    $("#textarea").delayedObserver(2, function(value, element) {
-      var p = $("#preview");
-      var timer1, timer2;
-      $.ajax({
-        url: "/pages/preview",
-        type: "POST",
-        dataType: "html", 
-        data: {content: value},
-        beforeSend: function(xhr) {
-          timer1 = setTimeout(function() {
-            $("#preview_loading span").html("Loading...");
-            $("#preview_loading").fadeIn("slow");
-            timer2 = setTimeout(function() {
-              $("#preview_loading span").html("Still loading...");
-            }, 15000);
-          }, 3000);
-        },
-        complete: function(xhr, status) {
-          if (timer1) clearTimeout(timer1);
-          if (timer2) clearTimeout(timer2);
-          $("#preview_loading").hide();
-          p.html(xhr.responseText);
-        }
-      })
-    });
-  }
+  $("#textarea").delayedObserver(2, function(value, element) {
+    updatePreviewArea($("#markup_filter").val(), value);
+  });
+
+  $("#markup_filter").change(function() {
+    updatePreviewArea($(this).val(), $("#textarea").val());
+  });
   
   if (!Cookie.exists("dualScroll")) Cookie.set("dualScroll", true, 7);
   if (!Cookie.exists("displayHoriz")) Cookie.set("displayHoriz", true, 7);

@@ -6,7 +6,7 @@
 }
 #page_form #textarea,
 #page_form #preview_area_wrapper.horiz #preview_area {
-  height: 500px
+  height: 450px
 }
 #page_form #textarea_area.vert #textarea {
   width: 100%;

@@ -91,45 +91,23 @@ ul.bull-sep.menu li.last:after {
 }
 
 #header, #footer {
-  /*background-color: #FEFFB8;*/
   background-color: #F5F8FF;
   border-style: solid;
-  /*border-color: #D4D5A7;*/
   border-color: #BDD1E0;
 }
-
-/*
-#footer-inner {
-  padding: 7px 20px;
-}
-*/
 
 #header h1, #header ul.menu {
   margin: 10px 0;
 }
 
-.nav {
-  text-align: right;
-  float: right;
-  /*
-  position: relative;
-  top: 3px;
-  */
-}
-
 #header {
-  /*border-radius: 0 0 5px 5px;*/
-  /*border-width: 0 1px 1px 1px;*/
   border-bottom-width: 1px;
   margin-bottom: 2em;
   padding: 7px;
 }
 
 #footer {
-  /*border-radius: 5px 5px 0 0;*/
-  /*border-width: 1px 1px 0 1px;*/
   border-top-width: 1px;
-  /*margin-top: 2em;*/
   position: fixed;
   z-index: 10;
   bottom: 0;
@@ -147,13 +125,6 @@ ul.bull-sep.menu li.last:after {
   /* leave space for the footer */
   padding-bottom: 70px;
 }
-
-/*
-#footer a.button {
-  border: none;
-  color: #666;
-}
-*/
 
 /* page */
 

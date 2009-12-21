@@ -14,8 +14,6 @@ gem 'haml'
   require 'haml'
 gem 'rack-flash'
   require 'rack-flash'
-gem 'gmccreight-WikiCreole'
-  require 'wiki_creole'
 gem 'sinatra_more'
   require 'sinatra_more/markup_plugin'
   require 'sinatra_more/render_plugin'
@@ -30,11 +28,41 @@ require "./lib/sinatra_reloader"
 module Coconut
   config_file = "#{ROOT_DIR}/config.yml"
   if File.exists?(config_file)
-    Config = YAML.load_file(config_file)
+    config = YAML.load_file(config_file)
+    defaults = {
+      "wiki_name" => "My Wiki",
+      "available_markup_filters" => %w(kramdown creole maruku)
+    }
+    @@config = defaults.merge(config)
   else
     raise "You need to make a config file. Rename config.yml.example to config.yml and modify to suit your needs."
   end
   
+  def self.config; @@config; end
+end
+
+Coconut.config["available_markup_filters"].each do |filter|
+  case filter
+  when "kramdown"
+    gem "kramdown", '>= 0.3.0'
+    require "kramdown"
+    
+    # Add UNAME_STR to rexml
+    class REXML::Parsers::BaseParser
+      UNAME_STR= "(?:#{NCNAME_STR}:)?#{NCNAME_STR}"
+    end
+  when "maruku"
+    gem "maruku"
+    require "maruku"
+  when "creole"
+    gem 'gmccreight-WikiCreole'
+    require 'wiki_creole'
+  end
+end
+
+#------
+
+module Coconut
   class App < Sinatra::Base
     # For some reason we have to set these explicitly
     set :root, ROOT_DIR
@@ -61,8 +89,10 @@ module Coconut
     enable :sessions
     use Rack::Flash, :sweep => true
     
-    use Rack::Auth::Basic do |username, password|
-      [username, password] == [Coconut::Config["username"], Coconut::Config["password"]]
+    if Coconut.config["username"] && Coconut.config["password"]
+      use Rack::Auth::Basic do |username, password|
+        [username, password] == [Coconut.config["username"], Coconut.config["password"]]
+      end
     end
     
     use Rack::TrailingSlash
@@ -73,11 +103,19 @@ module Coconut
     TRASH_DIR = "#{ROOT_DIR}/data/trash"
 
     helpers do
-      def markup(content)
-        #Creole.creolize(content)
-        content = content.gsub(/\r\n/, "\n")  # so WikiCreole will parse hr's correctly
-        content = WikiCreole.creole_parse(content)
-        content = content.gsub(/<pre>\s*/, "<pre>")  # fix this, blah blah
+      def markup(filter, content)
+        case filter
+        when "creole"
+          #Creole.creolize(content)
+          content = content.gsub(/\r\n/, "\n")  # so WikiCreole will parse hr's correctly
+          content = WikiCreole.creole_parse(content)
+          content = content.gsub(/<pre>\s*/, "<pre>")  # fix this, blah blah
+        when "maruku"
+          content = Maruku.new(content).to_html
+        when "kramdown"
+          content = Kramdown::Document.new(content).to_html
+        end
+        content
       end
   
       def find_pages(read_content=false)
@@ -105,12 +143,12 @@ module Coconut
       def do_page(page_name)
         @page = find_page(page_name)
         @title = @page["title"]
-        content = render_page(@page["content"])
+        content = render_page(@page["markup_filter"], @page["content"])
         haml :page, :layout => :wiki, :locals => {:content => content}
       end
   
-      def render_page(content)
-        markup(content)
+      def render_page(filter, content)
+        markup(filter, content)
       end
   
       def normalize_page_name(page_name)
@@ -122,7 +160,7 @@ module Coconut
         page_name.gsub("_", " ")
       end
   
-      def save_page(page_name, content)
+      def save_page(page_name, content, meta = {})
         content = content.strip
         content = content.gsub(/\r\n/, "\n")  # so WikiCreole will parse hr's correctly
         page = find_page(page_name)
@@ -132,13 +170,14 @@ module Coconut
           current_version = File.basename(File.readlink("#{page_dir}/current"))
           next_version = current_version.to_i + 1
         else
-          redirect "/#{page_name}" if content.empty?
+          redirect "/#{page_name}" and return if content.empty?
           next_version = 1
         end
         if page["content"] != content
           File.open("#{page_dir}/#{next_version}", "w") {|f| f << content }
           FileUtils.ln_sf("#{next_version}", "#{page_dir}/current")
         end
+        File.open("#{page_dir}/meta.yml", "w") {|f| YAML.dump(meta, f) }
         if params[:save_exit]
           redirect "/#{page["name"]}"
         elsif params[:save_return]
@@ -168,7 +207,7 @@ module Coconut
       # SimplyButtons helpers
       # http://www.p51labs.com/simply-buttons-v2/
       def button_tag(name, value, html_options = {})
-        content_tag :button, {:name => name}.merge(html_options) do
+        content_tag :button, {:name => name, :type => "submit"}.merge(html_options) do
           content_tag :span do
             content_tag :span, value
           end
@@ -192,10 +231,13 @@ module Coconut
       end
       
       def page_title
-        title = Coconut::Config["wiki_name"]
+        title = Coconut.config["wiki_name"]
         title += @title unless title == @title
         title
       end
+      
+      def hide_main?; @hide_main; end
+      def hide_main!; @hide_main = true; end
   
     private
       def _read_page(page_name, page_dir, read_content=false)
@@ -207,8 +249,8 @@ module Coconut
           "url" => "/" + page_name,
           "dir" => page_dir
         }
-        if File.exists?(pagefile)      
-          #page = YAML.load_file(metafile)
+        if File.exists?(pagefile)
+          page.merge!(YAML.load_file(metafile)) if File.exists?(metafile)
           if read_content
             page["content"] = File.read(pagefile)
             # this should never really happen but it's just in case
@@ -227,7 +269,7 @@ module Coconut
 
     get "/" do
       @pages = find_pages
-      @title = Coconut::Config["wiki_name"]
+      @title = Coconut.config["wiki_name"]
       haml :index, :layout => :wiki
     end
 
@@ -241,7 +283,7 @@ module Coconut
       end
     end
     post "/pages" do
-      save_page(params[:page_name], params[:content])
+      save_page(params[:page_name], params[:content], params[:meta])
     end
 
     get "/:page_name" do |page_name|
@@ -262,7 +304,7 @@ module Coconut
       end
     end
     put "/pages/:page_name" do
-      save_page(params[:page_name], params[:content])
+      save_page(params[:page_name], params[:content], params[:meta])
     end
 
     get "/pages/:page_name/delete" do
@@ -315,7 +357,7 @@ module Coconut
 
     post "/pages/preview" do
       #sleep 4
-      render_page params[:content]
+      render_page params[:markup_filter], params[:content]
     end
   end
 end

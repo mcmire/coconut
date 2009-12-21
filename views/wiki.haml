@@ -14,5 +14,7 @@
   %body
     = haml :header, :layout => false
     = content_for :before_body
-    #main
+    - if hide_main?
       = yield
+    - else
+      #main= yield

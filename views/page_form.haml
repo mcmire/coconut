@@ -2,48 +2,43 @@
   %script(type="text/javascript" src="/javascripts/page_form.js")
   %link(rel="stylesheet" href="/stylesheets/page_form.css")
 
-- content_for :before_body do
+- hide_main!
+
+%form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post", :id => "page_form"}
   #footer
     #footer-inner.block-clear
       %ul.right.menu.block-clear
-        %li
-          = button_tag "save_exit", "Save", :class => "submit"
-          /%input(type="submit" name="save_exit" value="Save")
-        %li
-          /%input(type="submit" name="save_return" value="Save & continue editing")
-          = button_tag "save_return", "Save & continue editing", :class => "submit"
-        %li
-          /%a(href="/#{@page["name"]}") Cancel
-          = button_link_to "Cancel", "/#{@page["name"]}", :class => "cancel"
+        %li= button_tag "save_exit", "Save", :class => "submit"
+        %li= button_tag "save_return", "Save & continue editing", :class => "submit"
+        %li= button_link_to "Cancel", "/#{@page["name"]}", :class => "cancel"
       %ul.left.menu.block-clear
-        %li
-          /%a.toggle_dual_scroll(href="#") Disable dual scroll
-          = button_link_to "Disable dual scroll", '#', :class => "toggle_dual_scroll"
-        %li
-          /%a.toggle_display(href="#") Change display to vertical
-          = button_link_to "Change display to vertical", '#', :class => "toggle_display"
+        %li= button_link_to "Disable dual scroll", '#', :class => "toggle_dual_scroll"
+        %li= button_link_to "Change display to vertical", '#', :class => "toggle_display"
 
-#debug(style="display: none") &nbsp;
+  #main
+    #debug(style="display: none") &nbsp;
 
-%form{:action => (@page["exists"] ? "/pages/#{@page["name"]}" : "/pages"), :method => "post", :id => "page_form"}
-  - if @page["exists"]
-    %input(name="_method" value="put" type="hidden")
-  - else
-    %input(name="page_name" value="#{params[:page_name]}" type="hidden")
-    
-  /#debug Debug goes here
+    - if @page["exists"]
+      %input(name="_method" value="put" type="hidden")
+    - else
+      %input(name="page_name" value="#{params[:page_name]}" type="hidden")
   
-  %div.block-clear
-    %div#textarea_area.horiz
-      %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
-    %div#preview_area_wrapper.horiz
-      .ifvert
-        %hr
-        %h3 Preview:
-      %div#preview_area
-        #preview_loading(style="display: none")
-          %span Loading...
-          %img(src="/images/ajax-loader.gif" width="16" height="11" style="margin-left: 5px; vertical-align: middle")
-        %div#preview.page_content
-          - if @page["exists"]
-            ~ render_page @page["content"]
+    /#debug Debug goes here
+
+    %div.block-clear
+      %div#textarea_area.horiz
+        %textarea#textarea(name="content" rows="25" cols="20")&= @page["exists"] ? @page["content"] : ""
+        %p
+          Markup filter:
+          = select_tag "meta[markup_filter]", :id => "markup_filter", :options => [""] + Coconut.config["available_markup_filters"], :selected => @page["markup_filter"]
+      %div#preview_area_wrapper.horiz
+        .ifvert
+          %hr
+          %h3 Preview:
+        %div#preview_area
+          #preview_loading(style="display: none")
+            %span Loading...
+            %img(src="/images/ajax-loader.gif" width="16" height="11" style="margin-left: 5px; vertical-align: middle")
+          %div#preview.page_content
+            - if @page["exists"]
+              ~ render_page @page["markup_filter"], @page["content"]

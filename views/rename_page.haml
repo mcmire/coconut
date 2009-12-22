@@ -4,7 +4,7 @@
     .error= flash[:error]
   %p
     Enter the new name:
-    %input(type="text" name="new_name" value="#{params[:new_name]}")
+    %input(type="text" name="new_name" value="#{params[:new_name] || @page["name"]}" size="50")
   %p
     = button_tag "commit", "Rename", :class => "submit"
     = button_link_to "Cancel", "/#{@page["name"]}", :class => "cancel"

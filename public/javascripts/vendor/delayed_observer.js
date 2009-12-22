@@ -34,7 +34,7 @@
     return (
       (event.metaKey || event.altKey || event.ctrlKey) ||
       (
-        (code >= 16 && code <= 45) ||
+        (code >= 16 && code <= 45 && code != 32) ||
         (code >= 91 && code <= 93) ||
         (code >= 112 && code <= 145) ||
         // command key on a mac

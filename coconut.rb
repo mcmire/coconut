@@ -51,6 +51,8 @@ Coconut.config["available_markup_filters"].each do |filter|
     class REXML::Parsers::BaseParser
       UNAME_STR= "(?:#{NCNAME_STR}:)?#{NCNAME_STR}"
     end
+    
+    Kramdown::Parser::Kramdown::HTML_SPAN_ELEMENTS << "s"
   when "maruku"
     gem "maruku"
     require "maruku"

@@ -183,6 +183,11 @@ ul.menu li {
 
 /* simply buttons overrides */
 
+a.button {
+  position: relative;
+  top: 2px;
+}
+
 button.submit span span,
 a.submit span span,
 a.submit:link span span,

@@ -232,7 +232,7 @@ module Coconut
       
       def page_title
         title = Coconut.config["wiki_name"]
-        title += @title unless title == @title
+        title += " &raquo; #{@title}" unless title == @title
         title
       end
       
